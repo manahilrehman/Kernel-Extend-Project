@@ -88,4 +88,41 @@ sequenceDiagram
     end
 
 
+---
+
+### Module 2: Shared Memory
+
+#### Overview & Purpose
+Provides a mechanism for two or more processes to share a common memory segment for high-speed inter-process communication (IPC) without copying data through kernel space.
+
+#### Key Features & Functionality
+- **Memory Mapping (`shmget`, `shmat`):** Allocates shared physical memory pages and maps them into virtual address spaces of calling processes.
+- **Detachment (`shmdt`):** Unmaps the shared memory segment from process address space when communication is finished.
+- **Synchronization & Isolation:** Ensures safe address space mapping and prevents memory access violations during process isolation.
+
+#### Implementation Details
+- **Subsystem:** Memory Management & IPC
+- **Syscalls:** `shmget()`, `shmat()`, `shmdt()`
+- **Test Program:** `shmtest`
+- **Difficulty:** Medium
+
+#### Module Architecture & Execution Flow
+```mermaid
+sequenceDiagram
+    autonumber
+    actor ProcA as Process A
+    actor ProcB as Process B
+    participant Kernel as Shared Memory Subsystem
+    participant RAM as Physical RAM Pages
+
+    ProcA->>Kernel: Call shmget() & shmat()
+    Kernel->>RAM: Allocate Physical Memory Pages
+    Kernel-->>ProcA: Map Virtual Address & Return Pointer
+    ProcB->>Kernel: Call shmat() with Segment ID
+    Kernel-->>ProcB: Map Same Physical Address to Process B
+    ProcA->>RAM: Write Data directly to Memory
+    ProcB->>RAM: Read Data directly from Memory
+        ```
+
+
 
