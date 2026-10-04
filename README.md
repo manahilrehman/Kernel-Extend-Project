@@ -85,10 +85,13 @@ sequenceDiagram
         Syscall->>Kernel: Locate task_struct by PID
         Kernel->>Proc: Change State to TASK_RUNNING / Wake Up
         Kernel-->>User: Return Success (0)
-    end
+    end```
 
 
 ---
+
+
+   ---
 
 ### Module 2: Shared Memory
 
@@ -115,14 +118,12 @@ sequenceDiagram
     participant Kernel as Shared Memory Subsystem
     participant RAM as Physical RAM Pages
 
-    ProcA->>Kernel: Call shmget() & shmat()
+    ProcA->>Kernel: Call shmget() and shmat()
     Kernel->>RAM: Allocate Physical Memory Pages
-    Kernel-->>ProcA: Map Virtual Address & Return Pointer
+    Kernel-->>ProcA: Map Virtual Address and Return Pointer
     ProcB->>Kernel: Call shmat() with Segment ID
     Kernel-->>ProcB: Map Same Physical Address to Process B
     ProcA->>RAM: Write Data directly to Memory
-    ProcB->>RAM: Read Data directly from Memory
-        ```
-
+    ProcB->>RAM: Read Data directly from Memory```
 
 
