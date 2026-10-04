@@ -45,24 +45,23 @@ The following modules have been selected for my kernel extension project.
 Implementation, testing, documentation, and architectural diagrams will be added in later stages.
 
 
-
 # Detailed Module Specifications & Flow Diagrams
 
 ---
 
 ## Module 1: Process Pause/Resume
-* **Subsystem:** Process States[cite: 1]
-* **Syscalls:** `pause_proc()`, `resume_proc()`[cite: 1]
-* **Test Program:** `pausetest`[cite: 1]
-* **Difficulty:** Easy-medium[cite: 1]
+* **Subsystem:** Process States
+* **Syscalls:** `pause_proc()`, `resume_proc()`
+* **Test Program:** `pausetest`
+* **Difficulty:** Easy-medium
 
 ### Explanation & Key Features
-* **Overview:** Adds execution control capabilities to temporarily suspend (pause) and resume process execution by introducing a dedicated process state (`PAUSED`)[cite: 1].
+* **Overview:** Adds execution control capabilities to temporarily suspend (pause) and resume process execution by introducing a dedicated process state (`PAUSED`).
 * **Key Features:**
-  * Introduces a new process state `PAUSED` in the kernel's process control block (PCB) structure[cite: 1].
-  * System call `pause_proc(pid)` transitions a target process from `RUNNING` or `RUNNABLE` to `PAUSED` state and triggers the kernel scheduler[cite: 1].
-  * System call `resume_proc(pid)` restores a paused process back to the `RUNNABLE` state[cite: 1].
-  * Ensures race-condition-free state transitions within kernel execution context[cite: 1].
+  * Introduces a new process state `PAUSED` in the kernel's process control block (PCB) structure.
+  * System call `pause_proc(pid)` transitions a target process from `RUNNING` or `RUNNABLE` to `PAUSED` state and triggers the kernel scheduler.
+  * System call `resume_proc(pid)` restores a paused process back to the `RUNNABLE` state.
+  * Ensures race-condition-free state transitions within kernel execution context.
 
 ### Flow Diagram
 
@@ -78,17 +77,17 @@ stateDiagram-v2
 ---
 
 ## Module 2: Shared Memory
-* **Subsystem:** Pages Mapped into Two Processes[cite: 1]
-* **Syscalls:** `shmget()`, `shmat()`, `shmdt()`[cite: 1]
-* **Test Program:** `shmtest`[cite: 1]
-* **Difficulty:** Medium[cite: 1]
+* **Subsystem:** Pages Mapped into Two Processes
+* **Syscalls:** `shmget()`, `shmat()`, `shmdt()`
+* **Test Program:** `shmtest`
+* **Difficulty:** Medium
 
 ### Explanation & Key Features
-* **Overview:** Facilitates high-speed Inter-Process Communication (IPC) by allowing two or more independent processes to map and share physical memory pages[cite: 1].
+* **Overview:** Facilitates high-speed Inter-Process Communication (IPC) by allowing two or more independent processes to map and share physical memory pages.
 * **Key Features:**
-  * Allocates physical memory pages that can be concurrently mapped into distinct user-space virtual addresses[cite: 1].
-  * Updates system page tables so different page table entries reference the exact same physical memory frames[cite: 1].
-  * Implements reference counting mechanisms to release physical pages once all attached processes detach[cite: 1].
+  * Allocates physical memory pages that can be concurrently mapped into distinct user-space virtual addresses.
+  * Updates system page tables so different page table entries reference the exact same physical memory frames.
+  * Implements reference counting mechanisms to release physical pages once all attached processes detach.
 
 ### Flow Diagram
 
@@ -111,17 +110,17 @@ sequenceDiagram
 ---
 
 ## Module 3: File Descriptor Info
-* **Subsystem:** Open-File Table[cite: 1]
-* **Syscalls:** `fdinfo()`[cite: 1]
-* **Test Program:** `fdinfo`[cite: 1]
-* **Difficulty:** Easy[cite: 1]
+* **Subsystem:** Open-File Table
+* **Syscalls:** `fdinfo()`
+* **Test Program:** `fdinfo`
+* **Difficulty:** Easy
 
 ### Explanation & Key Features
-* **Overview:** Provides inspection and diagnostic interfaces to query metadata and properties of active file descriptors owned by a process[cite: 1].
+* **Overview:** Provides inspection and diagnostic interfaces to query metadata and properties of active file descriptors owned by a process.
 * **Key Features:**
-  * Queries open file descriptors, file offsets, access flags, reference counts, and underlying file types (pipe, inode, or device)[cite: 1].
-  * System call `fdinfo(fd, struct fd_info *info)` populates detailed diagnostic data structures in user space[cite: 1].
-  * Helps trace file leaks and unclosed stream handles during user-space program execution[cite: 1].
+  * Queries open file descriptors, file offsets, access flags, reference counts, and underlying file types (pipe, inode, or device).
+  * System call `fdinfo(fd, struct fd_info *info)` populates detailed diagnostic data structures in user space.
+  * Helps trace file leaks and unclosed stream handles during user-space program execution.
 
 ### Flow Diagram
 
@@ -138,17 +137,17 @@ flowchart TD
 ---
 
 ## Module 4: Kernel Log Buffer (dmesg)
-* **Subsystem:** Kernel Logging[cite: 1]
-* **Syscalls:** `klog()`[cite: 1]
-* **Test Program:** `dmesg`[cite: 1]
-* **Difficulty:** Easy-medium[cite: 1]
+* **Subsystem:** Kernel Logging
+* **Syscalls:** `klog()`
+* **Test Program:** `dmesg`
+* **Difficulty:** Easy-medium
 
 ### Explanation & Key Features
-* **Overview:** Implements an internal circular ring buffer inside the kernel to store print log messages for runtime debugging[cite: 1].
+* **Overview:** Implements an internal circular ring buffer inside the kernel to store print log messages for runtime debugging.
 * **Key Features:**
-  * Fixed-size ring buffer implementation (`LOG_SIZE`) preventing memory leaks and buffer overflows[cite: 1].
-  * Intercepts kernel `printf` outputs to concurrently capture log entries into the ring buffer[cite: 1].
-  * System call `klog(buf, size)` exposes recorded kernel logs to userland utilities like `dmesg`[cite: 1].
+  * Fixed-size ring buffer implementation (`LOG_SIZE`) preventing memory leaks and buffer overflows.
+  * Intercepts kernel `printf` outputs to concurrently capture log entries into the ring buffer.
+  * System call `klog(buf, size)` exposes recorded kernel logs to userland utilities like `dmesg`.
 
 ### Flow Diagram
 
@@ -162,17 +161,17 @@ flowchart LR
 ---
 
 ## Module 5: User IDs and File Permissions
-* **Subsystem:** Access Control[cite: 1]
-* **Syscalls:** `setuid()`, `getuid()`, `chmod()`[cite: 1]
-* **Test Program:** `permtest`[cite: 1]
-* **Difficulty:** Medium[cite: 1]
+* **Subsystem:** Access Control
+* **Syscalls:** `setuid()`, `getuid()`, `chmod()`
+* **Test Program:** `permtest`
+* **Difficulty:** Medium
 
 ### Explanation & Key Features
-* **Overview:** Establishes multi-user execution contexts and POSIX-compliant file permissions across the file system[cite: 1].
+* **Overview:** Establishes multi-user execution contexts and POSIX-compliant file permissions across the file system.
 * **Key Features:**
-  * Maintains User IDs (`uid`) inside the process state for execution control[cite: 1].
-  * Stores owner UID and permission mode bitmasks (`rwx`) inside file inode metadata[cite: 1].
-  * Enforces permission validation during file `open()`, `read()`, `write()`, and `execute()` calls[cite: 1].
+  * Maintains User IDs (`uid`) inside the process state for execution control.
+  * Stores owner UID and permission mode bitmasks (`rwx`) inside file inode metadata.
+  * Enforces permission validation during file `open()`, `read()`, `write()`, and `execute()` calls.
 
 ### Flow Diagram
 
@@ -186,17 +185,17 @@ flowchart TD
 ---
 
 ## Module 6: Real-Time Clock
-* **Subsystem:** Memory-Mapped I/O (QEMU RTC)[cite: 2]
-* **Syscalls:** `gettime()`[cite: 2]
-* **Test Program:** `datetest`[cite: 2]
-* **Difficulty:** Easy-medium[cite: 2]
+* **Subsystem:** Memory-Mapped I/O (QEMU RTC)
+* **Syscalls:** `gettime()`
+* **Test Program:** `datetest`
+* **Difficulty:** Easy-medium
 
 ### Explanation & Key Features
-* **Overview:** Interfaces directly with hardware Memory-Mapped I/O (MMIO) registers of the Real-Time Clock on QEMU RISC-V platform[cite: 2].
+* **Overview:** Interfaces directly with hardware Memory-Mapped I/O (MMIO) registers of the Real-Time Clock on QEMU RISC-V platform.
 * **Key Features:**
-  * Reads raw hardware time counters mapped in system physical address space[cite: 2].
-  * System call `gettime(struct rtc_time *t)` retrieves wall-clock hardware timestamps[cite: 2].
-  * Translates raw hardware timer ticks into structured date, time, and calendar units[cite: 2].
+  * Reads raw hardware time counters mapped in system physical address space.
+  * System call `gettime(struct rtc_time *t)` retrieves wall-clock hardware timestamps.
+  * Translates raw hardware timer ticks into structured date, time, and calendar units.
 
 ### Flow Diagram
 
@@ -216,16 +215,16 @@ sequenceDiagram
 ---
 
 ## Module 7: Virtio Disk Statistics
-* **Subsystem:** Disk Driver[cite: 2]
-* **Syscalls:** `diskstat()`[cite: 2]
-* **Test Program:** `diskstat`[cite: 2]
-* **Difficulty:** Easy[cite: 2]
+* **Subsystem:** Disk Driver
+* **Syscalls:** `diskstat()`
+* **Test Program:** `diskstat`
+* **Difficulty:** Easy
 
 ### Explanation & Key Features
-* **Overview:** Tracks and records Virtio block storage device usage metrics to enable disk performance analysis[cite: 2].
+* **Overview:** Tracks and records Virtio block storage device usage metrics to enable disk performance analysis.
 * **Key Features:**
-  * Tracks total read/write request operations, cumulative sectors read/written, and device I/O errors[cite: 2].
-  * System call `diskstat(struct disk_stats *st)` transfers low-level block driver statistics to user space[cite: 2].
+  * Tracks total read/write request operations, cumulative sectors read/written, and device I/O errors.
+  * System call `diskstat(struct disk_stats *st)` transfers low-level block driver statistics to user space.
 
 ### Flow Diagram
 
@@ -241,17 +240,17 @@ flowchart TD
 ---
 
 ## Module 8: Lock Statistics
-* **Subsystem:** Atomics and Spinlocks[cite: 2]
-* **Syscalls:** `lockstat()`[cite: 2]
-* **Test Program:** `lockstattest`[cite: 2]
-* **Difficulty:** Medium[cite: 2]
+* **Subsystem:** Atomics and Spinlocks
+* **Syscalls:** `lockstat()`
+* **Test Program:** `lockstattest`
+* **Difficulty:** Medium
 
 ### Explanation & Key Features
-* **Overview:** Instruments kernel synchronization primitives (spinlocks and sleep-locks) to measure lock contention and performance bottlenecks[cite: 2].
+* **Overview:** Instruments kernel synchronization primitives (spinlocks and sleep-locks) to measure lock contention and performance bottlenecks.
 * **Key Features:**
-  * Records acquisition counts, spin-loop contention cycles, and lock hold durations for active kernel locks[cite: 2].
-  * Assists in identifying concurrency bottlenecks and race condition hot spots[cite: 2].
-  * System call `lockstat()` exposes kernel lock contention counters to user diagnostics[cite: 2].
+  * Records acquisition counts, spin-loop contention cycles, and lock hold durations for active kernel locks.
+  * Assists in identifying concurrency bottlenecks and race condition hot spots.
+  * System call `lockstat()` exposes kernel lock contention counters to user diagnostics.
 
 ### Flow Diagram
 
@@ -269,16 +268,16 @@ flowchart TD
 ---
 
 ## Module 9: CSR Dump
-* **Subsystem:** Supervisor CSRs (`sstatus`, `satp`, `scause`, `sie`)[cite: 2]
-* **Syscalls:** `csrdump()`[cite: 2]
-* **Test Program:** `csrdump`[cite: 2]
-* **Difficulty:** Easy[cite: 2]
+* **Subsystem:** Supervisor CSRs (`sstatus`, `satp`, `scause`, `sie`)
+* **Syscalls:** `csrdump()`
+* **Test Program:** `csrdump`
+* **Difficulty:** Easy
 
 ### Explanation & Key Features
-* **Overview:** Interrogates RISC-V Supervisor mode Control and Status Registers (CSRs) for hardware and architectural diagnostics[cite: 2].
+* **Overview:** Interrogates RISC-V Supervisor mode Control and Status Registers (CSRs) for hardware and architectural diagnostics.
 * **Key Features:**
-  * Utilizes RISC-V assembly (`csrr`) instructions to fetch values of `sstatus`, `satp`, `scause`, `stval`, and `sie`[cite: 2].
-  * Enables low-level debugging of kernel trap handlers, virtual page table pointers (`satp`), and interrupt bitmasks (`sie`)[cite: 2].
+  * Utilizes RISC-V assembly (`csrr`) instructions to fetch values of `sstatus`, `satp`, `scause`, `stval`, and `sie`.
+  * Enables low-level debugging of kernel trap handlers, virtual page table pointers (`satp`), and interrupt bitmasks (`sie`).
 
 ### Flow Diagram
 
@@ -299,17 +298,17 @@ sequenceDiagram
 ---
 
 ## Module 10: TLB Flush Counter
-* **Subsystem:** `sfence.vma` and Address Translation[cite: 2]
-* **Syscalls:** `tlbstat()`[cite: 2]
-* **Test Program:** `tlbstat`[cite: 2]
-* **Difficulty:** Medium[cite: 2]
+* **Subsystem:** `sfence.vma` and Address Translation
+* **Syscalls:** `tlbstat()`
+* **Test Program:** `tlbstat`
+* **Difficulty:** Medium
 
 ### Explanation & Key Features
-* **Overview:** Counts Translation Lookaside Buffer (TLB) invalidation requests issued via the RISC-V `sfence.vma` instruction[cite: 2].
+* **Overview:** Counts Translation Lookaside Buffer (TLB) invalidation requests issued via the RISC-V `sfence.vma` instruction.
 * **Key Features:**
-  * Hooks into kernel memory management and context-switching routines that invalidate virtual address translation entries[cite: 2].
-  * Maintains atomic counters incremented every time memory mappings are modified[cite: 2].
-  * System call `tlbstat()` returns global TLB flush operation metrics for performance analysis[cite: 2].
+  * Hooks into kernel memory management and context-switching routines that invalidate virtual address translation entries.
+  * Maintains atomic counters incremented every time memory mappings are modified.
+  * System call `tlbstat()` returns global TLB flush operation metrics for performance analysis.
 
 ### Flow Diagram
 
