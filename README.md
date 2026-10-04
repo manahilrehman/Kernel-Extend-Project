@@ -43,3 +43,46 @@ The following modules have been selected for my kernel extension project.
 **These 10 modules are reserved for my kernel extension project.**
 
 Implementation, testing, documentation, and architectural diagrams will be added in later stages.
+
+
+
+## Detailed Specifications & Architecture Diagrams
+
+---
+
+### Module 1: Process Pause/Resume
+
+#### Overview & Purpose
+This module allows user space programs to temporarily pause and resume a target process execution using custom kernel system calls. It helps in controlling process scheduling and execution flow directly from user space.
+
+#### Key Features & Functionality
+- **Pause Process (`pause_proc(pid)`):** Changes the process state from running/runnable to a stopped/suspended state (`TASK_STOPPED`).
+- **Resume Process (`resume_proc(pid)`):** Wakes up a suspended process and restores its state back to runnable (`TASK_RUNNING`).
+- **Safety Checks:** Verifies process permissions and checks if the PID exists before modifying process control block (PCB) states.
+
+#### Implementation Details
+- **Subsystem:** Process States & Scheduler
+- **Syscalls:** `pause_proc()`, `resume_proc()`
+- **Test Program:** `pausetest`
+- **Difficulty:** Easy-medium
+
+#### Module Architecture & Execution Flow
+```mermaid
+sequenceDiagram
+    autonumber
+    actor User as User Program (pausetest)
+    participant Syscall as System Call Handler
+    participant Kernel as Kernel Scheduler / PCB
+    participant Proc as Target Process
+
+    alt Pause Process Flow
+        User->>Syscall: Call pause_proc(PID)
+        Syscall->>Kernel: Locate task_struct by PID
+        Kernel->>Proc: Change State to TASK_STOPPED
+        Kernel-->>User: Return Success (0)
+    else Resume Process Flow
+        User->>Syscall: Call resume_proc(PID)
+        Syscall->>Kernel: Locate task_struct by PID
+        Kernel->>Proc: Change State to TASK_RUNNING / Wake Up
+        Kernel-->>User: Return Success (0)
+    end
