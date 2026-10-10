@@ -65,16 +65,12 @@ Implementation, testing, documentation, and architectural diagrams will be added
 
 ### Flow Diagram
 
-```mermaid
 stateDiagram-v2
-    [*] --> RUNNABLE
-    RUNNABLE --> RUNNING: Scheduler Pick
-    RUNNING --> PAUSED: pause_proc(pid)
-    PAUSED --> RUNNABLE: resume_proc(pid)
-    RUNNING --> ZOMBIE: exit()
-```
-
----
+    [*] --> Runnable
+    Runnable --> Paused : pause_proc(pid)
+    Paused --> Runnable : resume_proc(pid)
+    Runnable --> Zombie : exit()
+    Zombie --> [*]
 
 ## Module 2: Shared Memory
 * **Subsystem:** Pages Mapped into Two Processes
